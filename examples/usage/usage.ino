@@ -13,7 +13,8 @@ unsigned long warm_up_time = 180;
 unsigned long last = 0;
 
 void loop() {
-  if ((last + 10000) < millis()) {
+  unsigned long now = millis();
+  if ((now - last) > 10000) {
     if (warm_up_time > 0) {
       warm_up_time -= 10;
       Serial.println("Warming Up..." + String(warm_up_time));
@@ -21,6 +22,6 @@ void loop() {
       int co2 = mhz19b.Read();
       Serial.println("CO2 Reading: " + String(co2,DEC));
     }
-    last = millis();
+    last = now;
   }
 }
